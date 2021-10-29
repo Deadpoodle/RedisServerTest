@@ -2,7 +2,8 @@
 # #need some way to lock rows they're working on, store the change, queue it, apply after?
 
 import asyncio
-import sys, os
+import os
+import sys
 
 db = {}
 accepted_commands = ["GET", "SET", "DEL"]
@@ -40,9 +41,7 @@ class RedisServerProtocol(asyncio.Protocol):
 
     def parse_command(self, message):
         try:
-            cmd = "nil"
-            key = "nil"
-            val = "nil"
+            cmd, key, val = "nil"
 
             message_data = message.split("\r\n")
             print(f"message_data: {message_data}")
@@ -52,7 +51,7 @@ class RedisServerProtocol(asyncio.Protocol):
 
             # Ignore the initial handshake command
             if cmd == "COMMAND":
-                return cmd, key, val
+                return "nil", "nil", "nil"
 
             print(f"num args: {message_data[0][1:]}")
             num_args = int(message_data[0][1:])
