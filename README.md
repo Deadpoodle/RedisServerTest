@@ -5,7 +5,7 @@ In a language of your choice, using only its stdlib, create an in-memory key-val
 
 ## Success Metrics
 While running your solution, the following commands respond as such, where redis-cli is the official Redis CLI binary that is included with Redis:
-* $ <start solution>
+* $ \<start solution\>
 * $ redis-cli set x 1
     > OK
 * $ redis-cli get x
