@@ -21,11 +21,11 @@ Multiple clients can simultaneously access the application, potentially the same
 
 
 ## Notes
-* The makefile provides some useful targets, see then with: `make help`
+* The makefile provides some useful targets, see them with: `make help`
+* Dependencies for testing are managed with [Pipenv](https://realpython.com/pipenv-guide/): `pip install pipenv`
 * Precommit hooks are used to maintain code quality at time of commit
     * See [here](https://pre-commit.com/hooks.html) for an explanation of what each hook does.
     * They can be installed with `make setup_precommit`
-* Dependencies for testing are managed with [Pipenv](https://realpython.com/pipenv-guide/): `pip install pipenv`
 * Before running tests, enter Pipenv shell with: `pipenv shell`
 * Sync dependencies using: `make install`
 * To run tests: `make unit_test`

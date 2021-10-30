@@ -1,17 +1,15 @@
 .DEFAULT_GOAL := help
 
 help: ## Print this help message
-	@awk 'BEGIN {fs = ":.*?## "} /^[a-zA-Z_-]+:.*?## /' $(MAKEFILE_LIST)  | sort
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST)| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .check-pipenv: ## Hidden target to make sure we're running in pipenv
     ifndef PIPENV_ACTIVE
         $(error - must run from pipenv shell)
     endif
 
-.PHONY: setup_precommit ## Carry out basic setup tasks
-setup_precommit: .setup_precommit
-
-.setup_precommit: .check-pipenv ## Hidden target to install precommit then install the hooks
+.PHONY: setup_precommit
+setup_precommit: .check-pipenv ## Install precommit then install the hooks
 	pip install pre-commit && \
 	pre-commit install
 
