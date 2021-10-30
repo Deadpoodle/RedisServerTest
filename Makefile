@@ -14,8 +14,7 @@ setup_precommit: .check-pipenv ## Install precommit then install the hooks
 	pre-commit install
 
 run: ## Start the server
-	cd src && \
-	python3 server.py
+	python3 src/server.py
 
 unit_test: ## Run unit tests
 	pytest src/test_protocol.py -v

@@ -47,7 +47,6 @@ class RedisServerProtocol(asyncio.Protocol):
             print(f"message_data: {message_data}")
 
             cmd = message_data[2].upper()
-            print(f"cmd: {cmd}")
 
             # Ignore the initial handshake command
             if cmd == "COMMAND":
@@ -59,7 +58,6 @@ class RedisServerProtocol(asyncio.Protocol):
             # We're only handling GET/SET/DEL with a valid amount of args
             if cmd in accepted_commands and num_args >= 2:
                 key = message_data[4]
-                print(f"key: {key}")
 
             # Special care needed for SET
             if cmd == "SET":
@@ -67,7 +65,6 @@ class RedisServerProtocol(asyncio.Protocol):
                     # This command is invalid, not enough args
                     return "nil", "nil", "nil"
                 val = message_data[6]
-                print(f"val: {val}")
                 # Deal with different types of values
                 if val.isnumeric():
                     val = int(val)
@@ -83,9 +80,9 @@ class RedisServerProtocol(asyncio.Protocol):
             return cmd, key, val
         except Exception as e:
             print(f"Error parsing command: {e}")
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print(exc_type, fname, exc_tb.tb_lineno)
+            # exc_type, exc_obj, exc_tb = sys.exc_info()
+            # fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            # print(exc_type, fname, exc_tb.tb_lineno)
             return "nil", "nil", "nil"
 
     def handle_get(self, key):
