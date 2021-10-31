@@ -1,7 +1,10 @@
 import asyncio
+
 from protocol import RedisServerProtocol
 
+# https://realpython.com/async-io-python/#chaining-coroutines
 
+# https://stackoverflow.com/a/48486557
 def main(hostname="localhost", port=6379):
     loop = asyncio.get_event_loop()
     coroutine = loop.create_server(RedisServerProtocol, hostname, port)

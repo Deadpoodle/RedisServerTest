@@ -6,7 +6,7 @@ import protocol
 @patch("protocol.db", {"foo": "bar"})
 def test_handle_get_valid():
     key = "foo"
-    expected = "+bar\r\n".encode()
+    expected = b"+bar\r\n"
 
     response = protocol.RedisServerProtocol.handle_get(None, key)
 
@@ -16,7 +16,7 @@ def test_handle_get_valid():
 @patch("protocol.db", {"foo": "bar"})
 def test_handle_get_invalid():
     key = "foobar"
-    expected = "$-1\r\n".encode()
+    expected = b"$-1\r\n"
 
     response = protocol.RedisServerProtocol.handle_get(None, key)
 
@@ -105,7 +105,7 @@ def test_parse_command_set_bool():
     assert val == True
 
 
-def test_parse_command_set_invalid_set_args_amount():
+def test_parse_command_set_invalid_args_amount():
     data = "*3\r\n$3\r\nset\r\n$4\r\ntest\r\n"
 
     cmd, key, val = protocol.RedisServerProtocol.parse_command(None, data)

@@ -7,7 +7,6 @@ import sys
 
 db = {}
 accepted_commands = ["GET", "SET", "DEL"]
-queue = asyncio.Queue()  # TODO
 
 
 class RedisServerProtocol(asyncio.Protocol):
@@ -87,7 +86,6 @@ class RedisServerProtocol(asyncio.Protocol):
 
     def handle_get(self, key):
         try:
-            # result = queue.put(db.get(key))
             print(f"DB from test: {db}")
             result = db.get(key)
             print(f"db.get('{key}') : {result}")
@@ -107,7 +105,6 @@ class RedisServerProtocol(asyncio.Protocol):
 
     def handle_set(self, key, val):
         try:
-            # queue.put(db[key] = val)
             db[key] = val
             response = f"+OK\r\n".encode()
 
@@ -118,7 +115,6 @@ class RedisServerProtocol(asyncio.Protocol):
 
     def handle_del(self, key):
         try:
-            # queue.put(del db[key])
             if key in db:
                 del db[key]
                 response = f"+OK\r\n".encode()
