@@ -13,6 +13,9 @@ setup_precommit: .check-pipenv ## Install precommit then install the hooks
 	pip install pre-commit && \
 	pre-commit install
 
+install: ## Sync pipenv dependencies
+	pipenv sync
+
 run: ## Start the server
 	python3 src/server.py
 

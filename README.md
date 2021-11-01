@@ -23,15 +23,9 @@ Multiple clients can simultaneously access the application, potentially the same
 ## Notes
 * The makefile provides some useful targets, see them with: `make help`
 * Dependencies for testing are managed with [Pipenv](https://realpython.com/pipenv-guide/): `pip install pipenv`
+* Before running tests, enter Pipenv shell with: `pipenv shell`
 * Precommit hooks are used to maintain code quality at time of commit
     * See [here](https://pre-commit.com/hooks.html) for an explanation of what each hook does.
     * They can be installed with `make setup_precommit`
-* Before running tests, enter Pipenv shell with: `pipenv shell`
-* Sync dependencies using: `make install`
+* Dependencies are synced when `make setup_precommit` runs. You can manually install them with `make install`
 * To run tests: `make unit_test`
-
-### TODO
-* Multi-user concurrency
-* If passed from cli, ints come in as strings, will this always be the case?
-    * Likely not, need to make sure the string split still works in this case
-* Unit tests

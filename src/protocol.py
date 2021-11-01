@@ -1,9 +1,4 @@
-# multiple users can connect at once,
-# #need some way to lock rows they're working on, store the change, queue it, apply after?
-
 import asyncio
-import os
-import sys
 
 db = {}
 accepted_commands = ["GET", "SET", "DEL"]
@@ -15,23 +10,18 @@ class RedisServerProtocol(asyncio.Protocol):
         print(f"Client {transport.get_extra_info('sockname')} connected")
 
     def data_received(self, data):
-        print(f"Raw Data Received: {data}")
         cmd, key, val = self.parse_command(data.decode())
-        print(f"cmd: {cmd}, key: {key}, val: {val}")
 
         if cmd == "GET":
             response = self.handle_get(key)
-            print(f"GET Response: {response}")
             self.transport.write(response)
             return response
         elif cmd == "SET":
             response = self.handle_set(key, val)
-            print(f"SET Response: {response}")
             self.transport.write(response)
             return response
         elif cmd == "DEL":
             response = self.handle_del(key)
-            print(f"DEL Response: {response}")
             self.transport.write(response)
             return response
         else:
@@ -43,15 +33,12 @@ class RedisServerProtocol(asyncio.Protocol):
             cmd, key, val = "nil"
 
             message_data = message.split("\r\n")
-            print(f"message_data: {message_data}")
-
             cmd = message_data[2].upper()
 
             # Ignore the initial handshake command
             if cmd == "COMMAND":
                 return "nil", "nil", "nil"
 
-            print(f"num args: {message_data[0][1:]}")
             num_args = int(message_data[0][1:])
 
             # We're only handling GET/SET/DEL with a valid amount of args
@@ -65,6 +52,7 @@ class RedisServerProtocol(asyncio.Protocol):
                     return "nil", "nil", "nil"
                 val = message_data[6]
                 # Deal with different types of values
+                # I'm aware of the character that denotes the data type, but the cli seems to only send strings, so here we are
                 if val.isnumeric():
                     val = int(val)
                 elif val.upper() == "TRUE" or val.upper() == "FALSE":
@@ -79,16 +67,11 @@ class RedisServerProtocol(asyncio.Protocol):
             return cmd, key, val
         except Exception as e:
             print(f"Error parsing command: {e}")
-            # exc_type, exc_obj, exc_tb = sys.exc_info()
-            # fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            # print(exc_type, fname, exc_tb.tb_lineno)
             return "nil", "nil", "nil"
 
     def handle_get(self, key):
         try:
-            print(f"DB from test: {db}")
             result = db.get(key)
-            print(f"db.get('{key}') : {result}")
             if result == None:
                 response = (f"$-1\r\n").encode()
             elif type(result) == bool:
@@ -100,7 +83,7 @@ class RedisServerProtocol(asyncio.Protocol):
 
             return response
         except:
-            print("ERR - User supplied invalid key")
+            print("Error - User supplied invalid key")
             return b"$-1\r\n"
 
     def handle_set(self, key, val):
@@ -110,7 +93,7 @@ class RedisServerProtocol(asyncio.Protocol):
 
             return response
         except Exception as e:
-            print(f"ERR - Error saving kvp: {e}")
+            print(f"Error saving kvp: {e}")
             return ("-ERR error saving key value pair\r\n").encode()
 
     def handle_del(self, key):
