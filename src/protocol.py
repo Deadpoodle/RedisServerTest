@@ -89,7 +89,7 @@ class RedisServerProtocol(asyncio.Protocol):
     def handle_set(self, key, val):
         try:
             db[key] = val
-            response = f"+OK\r\n".encode()
+            response = "+OK\r\n".encode()
 
             return response
         except Exception as e:
@@ -100,7 +100,7 @@ class RedisServerProtocol(asyncio.Protocol):
         try:
             if key in db:
                 del db[key]
-                response = f"+OK\r\n".encode()
+                response = "+OK\r\n".encode()
             else:
                 response = "-ERR Invalid key\r\n".encode()
 
