@@ -1,4 +1,4 @@
-# NS1 Take Home Test - Joe Fahey
+# NS1 Take Home Test
 
 ## Overview
 In a language of your choice, using only its stdlib, create an in-memory key-value store that supports Redis wire protocol’s GET, DEL and SET. Both keys and values may be of any primitive type.
