@@ -27,5 +27,5 @@ Multiple clients can simultaneously access the application, potentially the same
 * Precommit hooks are used to maintain code quality at time of commit
     * See [here](https://pre-commit.com/hooks.html) for an explanation of what each hook does.
     * They can be installed with `make setup_precommit`
-* Dependencies are synced when `make setup_precommit` runs. You can manually install them with `make install`
+* Dependencies are synced with `make install`
 * To run tests: `make unit_test`
